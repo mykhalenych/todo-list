@@ -2,8 +2,8 @@ import React from 'react'
 import Task from './Task'
 import CreateTaskInput from './CreateTaskInput'
 
-const baseUrl = 'https://5e64c3daa49c210016106bc4.mockapi.io/tasks'
-
+//const baseUrl = 'https://5e64c3daa49c210016106bc4.mockapi.io/tasks'
+const baseUrl = 'https://crudcrud.com/api/83b074db7d924be2b1484c1521dd3fd2/tasks'
 class TasksList extends React.Component{
   state = {
     tasks: []
@@ -44,18 +44,38 @@ class TasksList extends React.Component{
     })
   }
   handleTaskStatus = (id) => {
-    const updateTasks = this.state.tasks.map(task => {
-      if(task.id === id){
-        return{
-          ...task,
-          done: !task.done
-        }
+    const { done, text } = this.state.tasks.find(task => task.id === id);
+    const updateTask = {
+        text,
+        done: !done
+    };
+    console.log(updateTask.text)
+    fetch(`${baseUrl}/${id}`, {
+      method: 'PUT',
+      headers:{
+        'Content-type': 'application/json;utc-8'
+      },
+      body: JSON.stringify(updateTask)
+    }).then(response => {
+      if(response.ok){
+        this.fetchTaskList()
       }
-      return task
+      else{
+        throw new Error('fail load data')
+      }
     })
-    this.setState({
-      tasks: updateTasks
-    })
+    // const updateTasks = this.state.tasks.map(task => {
+    //   if(task.id === id){
+    //     return{
+    //       ...task,
+    //       done: !task.done
+    //     }
+    //   }
+    //   return task
+    // })
+    // this.setState({
+    //   tasks: updateTasks
+    // })
   }
   handleTaskDelete = (id) => {
     fetch(`${baseUrl}/${id}`,{
