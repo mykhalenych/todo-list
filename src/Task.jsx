@@ -1,25 +1,23 @@
 import React from 'react'
 import classNames from 'classnames'
 
-const Task = ({task, onChange, onDelete}) => {
+const Task = ({ text, done, id, onDeleteTask, onChangeStatus }) => {
 
-  const listItemClasses = classNames('list-item', {'list-item_done' : task.done})
-  return(
-    <li
-      className={listItemClasses}>
-      <input 
-        type="checkbox" 
-        className="list-item__checkbox"
-        defaultChecked={task.done} 
-        onChange={() => onChange(task.id)}
-        
-      />
-        <span className="list-item__text">{task.text}</span>
-      <button 
-        onClick={() => onDelete(task.id)}
-        className="list-item__delete-btn"></button>
-    </li>
-  )
-}
+  return (
+      <li className={classNames('list-item', {'list-item_done' : done})}>
+          <input 
+              className="list-item__checkbox"
+              defaultChecked={done}
+              type="checkbox"
+              onChange={() => onChangeStatus(id)}
+          />
+          <span className="list-item__text">{text}</span>
+          <button
+              className="list-item__delete-btn"
+              onClick={() => onDeleteTask(id)}
+          ></button>
+      </li>
+  );
+};
 
-export default Task
+export default Task;
