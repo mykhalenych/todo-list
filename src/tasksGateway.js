@@ -1,55 +1,55 @@
-// const baseUrl = 'https://5e64c3daa49c210016106bc4.mockapi.io/tasks'
-export const baseUrl = 'https://crudcrud.com/api/83b074db7d924be2b1484c1521dd3fd2/tasks'
+ const baseUrl = 'https://5e64c3daa49c210016106bc4.mockapi.io/tasks'
+//export const baseUrl = 'https://crudcrud.com/api/83b074db7d924be2b1484c1521dd3fd2/tasks'
 
 
-export const fetchTaskList = () => {
-  return fetch(baseUrl)
-      .then(response => {
-          if (response.ok) {
-              return response.json();
-          }
-      })
-      .then(tasksList => tasksList
-          .map(({ _id, ...rest }) => ({ id: _id, ...rest })))
+export const fetchTasksList = () => {
+    return fetch(baseUrl)
+        .then(response => {
+            if (response.ok) {
+                return response.json()
+            }
+        })
+        .then(tasksList => { return tasksList })
 }
 
-export const createTask = taskData => {
-  return fetch(baseUrl, {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json;charset=utf-8'
-      },
-      body: JSON.stringify(taskData),
-  })
-      .then(response => {
-          if (!response.ok) {
-              throw new Error('Faaaailed!!!!');
-          }
-      })
-};
+export const createTask = (newTask) => {
+    return fetch(baseUrl, {
+        method: "POST",
+        headers: {
+            'Content-type': 'application/json; charset=utf-8'
+        },
+        body: JSON.stringify(newTask)
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to create task');
+            }
+        })
+}
 
-export const updateTask = (taskId, taskData) => {
-  return fetch(`${baseUrl}/${taskId}`, {
-      method: 'PUT',
-      headers: {
-          'Content-Type': 'application/json;charset=utf-8'
-      },
-      body: JSON.stringify(taskData),
-  })
-      .then(response => {
-          if (!response.ok) {
-              throw new Error('Faaaailed to update!!!!');
-          }
-      })
-};
+export const updateTask = (taskId, updatedTask) => {
+    return fetch(`${baseUrl}/${taskId}`, {
+        method: "PUT",
+        headers: {
+            'Content-type': 'application/json; charset=utf-8'
+        },
+        body: JSON.stringify(updatedTask)
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to update task');
+            }
+        });
+}
 
-export const deleteTask = taskId => {
-  return fetch(`${baseUrl}/${taskId}`, {
-      method: 'DELETE'
-  })
-      .then(response => {
-          if (!response.ok) {
-              throw new Error('Faaaailed to delete!!!!');
-          }
-      })
+export const deleteTask = (taskId) => {
+    return fetch(`${baseUrl}/${taskId}`, {
+        method: 'DELETE'
+    }).then(
+        res => {
+            if (!res.ok) {
+                throw new Error('Failed to delete tasks')
+            }
+        }
+    )
 }
